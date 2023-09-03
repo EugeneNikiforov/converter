@@ -3,6 +3,8 @@ import { Block } from "./Block";
 import './App.css';
 
 function App() {
+  const [currencyOne, setCurrencyOne] = React.useState("UAH");
+  const [currencyTwo, setCurrencyTwo] = React.useState("USD");
   const [rates, setRates] = React.useState({});
 
   React.useEffect(() => {
@@ -11,8 +13,8 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <Block value={0} currency="UAH" />
-      <Block value={0} currency="USD" />
+      <Block value={0} currency={currencyOne} onChangeCurrency={setCurrencyOne} />
+      <Block value={0} currency={currencyTwo} onChangeCurrency={setCurrencyTwo} />
     </div>
   );
 }
