@@ -5,35 +5,42 @@ import './App.css';
 function App() {
   const [currencyOne, setCurrencyOne] = React.useState("UAH");
   const [currencyTwo, setCurrencyTwo] = React.useState("USD");
-  const [rates, setRates] = React.useState({});
   const [fromCourse, setFromCourse] = React.useState(0);
-  const [toCourse, setToCourse] = React.useState(0);
+  const [toCourse, setToCourse] = React.useState(1);
+
+  const ratesRef = React.useRef({});
 
   React.useEffect(() => {
-    fetch("https://cdn.cur.su/api/latest.json").then(res => res.json()).then((json) => {setRates(json.rates)}).catch((err) => {
+    fetch("https://cdn.cur.su/api/latest.json").then(res => res.json()).then((json) => {
+      ratesRef.current = json.rates;
+      onChangeToCourse(1);
+    }).catch((err) => {
       console.warn(err)});
   }, []);
 
   const onChangeFromCourse = (value) => {
-    const course = value / rates[currencyOne];
-    const result = course * rates[currencyTwo];
+    const course = value / ratesRef.current[currencyOne];
+    const result = course * ratesRef.current[currencyTwo];
     setToCourse(result);
     setFromCourse(value);
   }
 
   const onChangeToCourse = (value) => {
-    const result = rates[currencyOne] / rates[currencyTwo] * value;
+    const result = ratesRef.current[currencyOne] / ratesRef.current[currencyTwo] * value;
     setFromCourse(result);
     setToCourse(value);
   }
 
-  const onChangeFromCurrency = (cur) => {
-    setCurrencyOne(cur);
+  React.useEffect(() => {
     onChangeFromCourse(fromCourse);
-  }
+  }, [currencyOne, fromCourse]);
+
+  React.useEffect(() => {
+    onChangeToCourse(toCourse);
+  }, [currencyTwo, toCourse]);
   return (
     <div className="App">
-      <Block value={fromCourse} currency={currencyOne} onChangeCurrency={onChangeFromCurrency} onChangeValue={onChangeFromCourse} />
+      <Block value={fromCourse} currency={currencyOne} onChangeCurrency={setCurrencyOne} onChangeValue={onChangeFromCourse} />
       <Block value={toCourse} currency={currencyTwo} onChangeCurrency={setCurrencyTwo} onChangeValue={onChangeToCourse} />
     </div>
   );
