@@ -33,11 +33,11 @@ function App() {
 
   React.useEffect(() => {
     onChangeFromCourse(fromCourse);
-  }, [currencyOne, fromCourse]);
+  }, [currencyOne]);
 
   React.useEffect(() => {
     onChangeToCourse(toCourse);
-  }, [currencyTwo, toCourse]);
+  }, [currencyTwo]);
   return (
     <div className="App">
       <Block value={fromCourse} currency={currencyOne} onChangeCurrency={setCurrencyOne} onChangeValue={onChangeFromCourse} />
