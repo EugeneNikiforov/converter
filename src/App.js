@@ -26,9 +26,14 @@ function App() {
     setFromCourse(result);
     setToCourse(value);
   }
+
+  const onChangeFromCurrency = (cur) => {
+    setCurrencyOne(cur);
+    onChangeFromCourse(fromCourse);
+  }
   return (
     <div className="App">
-      <Block value={fromCourse} currency={currencyOne} onChangeCurrency={setCurrencyOne} onChangeValue={onChangeFromCourse} />
+      <Block value={fromCourse} currency={currencyOne} onChangeCurrency={onChangeFromCurrency} onChangeValue={onChangeFromCourse} />
       <Block value={toCourse} currency={currencyTwo} onChangeCurrency={setCurrencyTwo} onChangeValue={onChangeToCourse} />
     </div>
   );
