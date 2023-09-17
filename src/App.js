@@ -5,7 +5,6 @@ import './App.css';
 function App() {
   const [currencyOne, setCurrencyOne] = React.useState("UAH");
   const [currencyTwo, setCurrencyTwo] = React.useState("USD");
-  // const [rates, setRates] = React.useState({});
   const [fromCourse, setFromCourse] = React.useState(0);
   const [toCourse, setToCourse] = React.useState(1);
 
@@ -13,7 +12,6 @@ function App() {
 
   React.useEffect(() => {
     fetch("https://cdn.cur.su/api/latest.json").then(res => res.json()).then((json) => {
-      // setRates(json.rates);
       ratesRef.current = json.rates;
       onChangeToCourse(1);
     }).catch((err) => {
